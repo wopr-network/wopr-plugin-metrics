@@ -36,7 +36,7 @@ export const metricsPluginSchema: PluginSchema = {
 };
 
 export interface MetricRecord {
-  id?: string;
+  id: string;
   timestamp: number;
   metric_name: string;
   metric_value: number;
@@ -116,12 +116,12 @@ export class MetricsStore {
     let sql = "SELECT COALESCE(SUM(metric_value), 0) as total FROM metrics_rows WHERE metric_name = ?";
     const params: (string | number)[] = [name];
 
-    if (instanceId) {
+    if (instanceId !== undefined) {
       sql += " AND instance_id = ?";
       params.push(instanceId);
     }
 
-    if (sinceMs) {
+    if (sinceMs !== undefined) {
       sql += " AND timestamp >= ?";
       params.push(sinceMs);
     }
@@ -199,24 +199,24 @@ export class MetricsStore {
     let sql = "SELECT id, timestamp, metric_name, metric_value, instance_id, tags FROM metrics_rows WHERE 1=1";
     const params: (string | number)[] = [];
 
-    if (options.name) {
+    if (options.name !== undefined) {
       sql += " AND metric_name = ?";
       params.push(options.name);
     }
 
-    if (options.instanceId) {
+    if (options.instanceId !== undefined) {
       sql += " AND instance_id = ?";
       params.push(options.instanceId);
     }
 
-    if (options.since) {
+    if (options.since !== undefined) {
       sql += " AND timestamp >= ?";
       params.push(options.since);
     }
 
     sql += " ORDER BY timestamp DESC";
 
-    if (options.limit) {
+    if (options.limit !== undefined) {
       sql += " LIMIT ?";
       params.push(options.limit);
     }

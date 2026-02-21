@@ -24,8 +24,15 @@ export function createMetricsA2AServer(store: MetricsStore): A2AServerConfig {
           required: ["name", "value"],
         },
         handler: async (args: Record<string, unknown>): Promise<A2AToolResult> => {
-          const name = args.name as string;
-          const value = args.value as number;
+          if (typeof args.name !== "string" || args.name === "") {
+            return { content: [{ type: "text", text: "Error: name must be a non-empty string" }], isError: true };
+          }
+          if (typeof args.value !== "number") {
+            return { content: [{ type: "text", text: "Error: value must be a number" }], isError: true };
+          }
+
+          const name = args.name;
+          const value = args.value;
           const instanceId = args.instance_id as string | undefined;
           const tags = (args.tags as Record<string, string>) ?? {};
 

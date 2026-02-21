@@ -57,14 +57,24 @@ export function createMetricsRouter(store: MetricsStore): Hono {
       },
     }),
     async (c) => {
-      const body = await c.req.json();
+      let body: { name?: unknown; value?: unknown; instance_id?: unknown; tags?: unknown };
+      try {
+        body = await c.req.json();
+      } catch {
+        return c.json({ error: "Invalid JSON body" }, 400);
+      }
       const { name, value, instance_id, tags } = body;
 
-      if (!name || value === undefined) {
+      if (!name || value == null) {
         return c.json({ error: "name and value are required" }, 400);
       }
 
-      await store.record(name, value, instance_id ?? null, tags ?? {});
+      await store.record(
+        name as string,
+        value as number,
+        (instance_id as string | null) ?? null,
+        (tags as Record<string, string>) ?? {},
+      );
       return c.json({ recorded: true }, 201);
     },
   );

@@ -21,6 +21,11 @@ const plugin: WOPRPlugin = {
   },
 
   async init(ctx: WOPRPluginContext): Promise<void> {
+    if (metricsStore !== null) {
+      ctx.log.info("[metrics] Plugin already initialized, skipping");
+      return;
+    }
+
     ctx.log.info("[metrics] Initializing metrics plugin...");
 
     // Create the MetricsStore using the Storage API from the plugin context
