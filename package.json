@@ -1,0 +1,41 @@
+{
+  "name": "@wopr-network/wopr-plugin-metrics",
+  "version": "1.0.0",
+  "description": "Metrics and observability plugin for WOPR — records, queries, and exports platform metrics",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "prepublishOnly": "npm run build",
+    "lint": "biome check --config-path=. src/",
+    "lint:fix": "biome check --config-path=. --fix src/",
+    "format": "biome format --config-path=. --write src/",
+    "check": "biome check --config-path=. src/ && tsc --noEmit",
+    "test": "vitest run"
+  },
+  "keywords": [
+    "wopr",
+    "plugin",
+    "metrics",
+    "observability"
+  ],
+  "author": "WOPR",
+  "license": "MIT",
+  "dependencies": {
+    "hono": "^4.11.9",
+    "hono-openapi": "^1.2.0",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.3.15",
+"@types/node": "^25.2.3",
+    "@wopr-network/plugin-types": ">=0.2.0",
+    "typescript": "^5.3.0",
+    "vitest": "^4.0.18"
+  },
+  "peerDependencies": {
+    "@wopr-network/plugin-types": ">=0.2.0"
+  }
+}
